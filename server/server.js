@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(require('./routes/usuario'));
+app.use(require('./routes/index'));
 
 console.log(process.env.URLDB);
 mongoose
