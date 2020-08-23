@@ -12,13 +12,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(require('./routes/usuario'));
 
-mongoose.connect('mongodb://localhost:27017/cafe', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}, err => {
-    if (err) throw err;
-    console.log('Base de datos ONLINE');
-});
+console.log(process.env.URLDB);
+mongoose
+    .connect(process.env.URLDB, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true
+    })
+    .then(result => console.log('Base de datos ONLINE'))
+    .catch(err => console.log(err));
 
 app.listen(process.env.PORT, () => {
     console.log('Escuchando puesto ' + process.env.PORT);
