@@ -5,7 +5,6 @@ const app = express();
 const _ = require('underscore');
 
 const Categoria = require('../models/categoria');
-const Usuario = require('../models/usuario');
 
 //Obtener todas las categorias
 app.get('/categoria', verificaToken, (req, res) => {
