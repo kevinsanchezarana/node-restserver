@@ -213,5 +213,32 @@ app.delete('/productos/:id', verificaToken, (req, res) => {
 
 });
 
+app.get('/productos/buscar/:termino', verificaToken, (req, res) => {
+    let termino = req.params.termino;
+
+    //Like
+    let regex = new RegExp(termino, 'i');
+    Producto
+        .find({ nombre: regex })
+        .populate('categoria', 'descripcion')
+        .sort('nombre')
+        .exec((err, productos) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+
+            res.json({
+                ok: true,
+                productos
+            });
+
+        });
+
+});
+
 
 module.exports = app;
