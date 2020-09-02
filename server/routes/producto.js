@@ -11,7 +11,7 @@ app.get('/productos', verificaToken, (req, res) => {
     const limite = Number(req.query.limite) || 5;
 
     Producto
-        .find()
+        .find({ disponible: true })
         .skip(desde)
         .limit(limite)
         .populate('usuario', 'nombre, email')
