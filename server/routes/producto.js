@@ -71,10 +71,9 @@ app.post('/productos', verificaToken, async(req, res) => {
     const { nombre, descripcion, precioUni, categoria } = body;
 
     let categoriaDB = await Categoria.findOne({ 'descripcion': categoria }, (err, categoriaDB) => { return err ? null : categoriaDB; });
-
     if (!categoriaDB) {
         categoriaDB = new Categoria({
-            descripcion,
+            descripcion: categoria,
             usuario: usuarioId
         });
         categoriaDB = await categoriaDB.save((err, categoriaNuevaDB) => {
@@ -121,7 +120,7 @@ app.post('/productos', verificaToken, async(req, res) => {
             });
         }
 
-        res.json({
+        res.status(201).json({
             ok: true,
             producto: productoDB
         });
@@ -192,7 +191,7 @@ app.put('/productos/:id', verificaToken, async(req, res) => {
 app.delete('/productos/:id', verificaToken, (req, res) => {
     //marcarlo como disponible a false
     let id = req.params.id;
-    Categoria.findByIdAndUpdate(id, { disponible: false }, { new: true, runValidators: true }, (err, productoDB) => {
+    Producto.findByIdAndUpdate(id, { disponible: false }, { new: true, runValidators: true }, (err, productoDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
